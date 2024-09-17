@@ -1,0 +1,13 @@
+useEffect(() => {
+    console.log("Setelah initial render, hanya dijalankan sekali");
+}, []);
+
+useEffect(() => {
+    console.log("Setelah setiap render");
+});
+
+useEffect(() => {
+    console.log("D");
+}, [query]);
+
+console.log("selama render");
