@@ -18,11 +18,15 @@ function WatchedSummary({ watched }) {
         </p>
         <p>
           <span>⭐️</span>
-          <span className="text-white font-light">{avgImdbRating}</span>
+          <span className="text-white font-light">
+            {avgImdbRating.toFixed(0)}
+          </span>
         </p>
         <p>
           <span>🌟</span>
-          <span className="text-white font-light">{avgUserRating}</span>
+          <span className="text-white font-light">
+            {avgUserRating.toFixed(0)}
+          </span>
         </p>
         <p>
           <span>⏳</span>
