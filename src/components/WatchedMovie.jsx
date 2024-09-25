@@ -3,7 +3,12 @@ import { IoClose } from "react-icons/io5";
 function WatchedMovie({ movie, onDeleteWatched }) {
   return (
     <li className="flex items-center gap-x-5 text-white relative">
-      <img src={movie.poster} alt={`${movie.title} poster`} width={90} />
+      <img
+        src={movie.poster}
+        alt={`${movie.title} poster`}
+        width={90}
+        className="rounded-lg"
+      />
       <div className="font-poppins">
         <h3 className="font-bold text-base">{movie.title}</h3>
         <div className="flex gap-x-4 mt-3">

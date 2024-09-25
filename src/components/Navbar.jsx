@@ -32,7 +32,7 @@ function NavBar({ children }) {
 
   return (
     <nav className="bg-violet-700 rounded-2xl">
-      <div className="flex justify-between items-center py-5 px-4 md:px-20 md:flex">
+      <div className="flex justify-between items-center py-4 px-4 md:px-20 md:py-4 md:flex">
         <Logo />
 
         <div className="hidden items-center gap-x-3 md:flex">{children}</div>

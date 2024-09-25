@@ -39,6 +39,9 @@ function App() {
   };
 
   useEffect(() => {
+    // Inisialisasi untuk cleanup function
+    const controller = new AbortController();
+
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
@@ -46,7 +49,8 @@ function App() {
         // kalau tidak ada ini maka akan tampil terus pesan error nya yaitu "Movie not found"
         setError("");
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          { signal: controller.signal }
         );
 
         if (!res.ok)
@@ -59,8 +63,11 @@ function App() {
 
         setMovies(data.Search);
         // console.log("Movies state updated:", data.Search);
+        setError("");
       } catch (err) {
-        setError(err.message);
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -73,7 +80,20 @@ function App() {
     }
 
     fetchMovies();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
+
+  useEffect(() => {
+    const handleButtonEscape = (e) => {
+      if (e.code === "Escape") {
+        handleCloseMovieDetail();
+      }
+    };
+    document.addEventListener("keydown", handleButtonEscape);
+  }, []);
 
   return (
     <div className="p-5">

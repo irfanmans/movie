@@ -11,8 +11,8 @@ function WatchedSummary({ watched }) {
       <h2 className="uppercase text-white font-bold text-xs text-center">
         Movies you watched
       </h2>
-      <div className="flex justify-between mt-1 font-semibold">
-        <p className="flex items-center gap-x-2">
+      <div className="flex justify-between font-semibold mt-5">
+        <p className="flex items-center gap-x-1">
           <span>👨‍💼</span>
           <span className="text-white font-light">{watched.length} movies</span>
         </p>

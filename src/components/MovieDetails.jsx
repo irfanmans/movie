@@ -35,6 +35,7 @@ function MovieDetails({
     Genre: genre,
   } = movie;
 
+  // Ini akan dikirimkan ke state watched di file App.jsx
   const handleAdd = () => {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -61,6 +62,16 @@ function MovieDetails({
     };
     getMovieDetail();
   }, [selectedId]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+
+    // Clean up Function
+    return () => {
+      document.title = "Movie";
+    };
+  }, [title]);
 
   return (
     <>
@@ -103,7 +114,7 @@ function MovieDetails({
                     maxRating={10}
                     size={24}
                     color="#fcc419"
-                    onSetRating={setUserRating}
+                    onSetRating={setUserRating} // Akan memperbarui state userRating
                   />
                   {userRating > 0 && (
                     <button
