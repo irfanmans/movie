@@ -79,21 +79,15 @@ function App() {
       return;
     }
 
+    // Ketika user mencari judul "tes" dan pilih movie nya, kemudian ketika user mencari judul lain "spider",
+    // maka otomatis akan menutup komponen MovieDetail yang "tes" nya
+    handleCloseMovieDetail();
     fetchMovies();
 
     return () => {
       controller.abort();
     };
   }, [query]);
-
-  useEffect(() => {
-    const handleButtonEscape = (e) => {
-      if (e.code === "Escape") {
-        handleCloseMovieDetail();
-      }
-    };
-    document.addEventListener("keydown", handleButtonEscape);
-  }, []);
 
   return (
     <div className="p-5">
@@ -112,6 +106,7 @@ function App() {
         </Box>
 
         <Box>
+          {/* // Jika state selectedId ada isinya */}
           {selectedId ? (
             <MovieDetails
               selectedId={selectedId}

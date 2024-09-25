@@ -35,7 +35,6 @@ function MovieDetails({
     Genre: genre,
   } = movie;
 
-  // Ini akan dikirimkan ke state watched di file App.jsx
   const handleAdd = () => {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -46,7 +45,7 @@ function MovieDetails({
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
     };
-    onAddWatched(newWatchedMovie);
+    onAddWatched(newWatchedMovie); // Ini akan dikirimkan ke state watched di file App.jsx
     onCloseMovieDetail();
   };
 
@@ -70,8 +69,24 @@ function MovieDetails({
     // Clean up Function
     return () => {
       document.title = "Movie";
+      // console.log(`Clean up effect for movie ${title}`);
     };
   }, [title]);
+
+  useEffect(() => {
+    const handleButtonEscape = (e) => {
+      if (e.code === "Escape") {
+        // Jika menekan tombol Escape di keyboard, maka akan mentriger function onCloseMovieDetail()
+        // Ini akan membuat selectedId menjadi null kembali
+        onCloseMovieDetail();
+        console.log("Close");
+      }
+    };
+    document.addEventListener("keydown", handleButtonEscape);
+    return () => {
+      document.removeEventListener("keydown", handleButtonEscape);
+    };
+  }, [onCloseMovieDetail]);
 
   return (
     <>
