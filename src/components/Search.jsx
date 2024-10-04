@@ -1,4 +1,16 @@
+import { useRef } from "react";
+import { useKeyListener } from "../CustomHook/useKeyListener";
+
 function Search({ query, setQuery }) {
+  const inputEl = useRef(null);
+
+  // Custom Hook
+  useKeyListener("Enter", function () {
+    if (document.activeElement === inputEl.current) return;
+    inputEl.current.focus();
+    setQuery("");
+  });
+
   return (
     <>
       <input
@@ -7,6 +19,7 @@ function Search({ query, setQuery }) {
         placeholder="Search movies..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        ref={inputEl} // Ini akan menghasilkan objek current dengan hasil dari elemen input ini sendiri
       />
     </>
   );

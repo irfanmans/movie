@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Loading from "./Loading";
 import StarRating from "./StarRating";
+import { useKeyListener } from "../CustomHook/useKeyListener";
 
 const KEY = "658ea1e6";
 
@@ -14,6 +15,7 @@ function MovieDetails({
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+  const countRef = useRef(0);
 
   const isWatch = watched.map((movie) => movie.imdbID).includes(selectedId);
 
@@ -44,10 +46,17 @@ function MovieDetails({
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      countRatingDecision: countRef.current,
     };
     onAddWatched(newWatchedMovie); // Ini akan dikirimkan ke state watched di file App.jsx
     onCloseMovieDetail();
   };
+
+  useEffect(() => {
+    if (userRating) {
+      countRef.current += 1;
+    }
+  }, [userRating]);
 
   useEffect(() => {
     const getMovieDetail = async () => {
@@ -73,20 +82,8 @@ function MovieDetails({
     };
   }, [title]);
 
-  useEffect(() => {
-    const handleButtonEscape = (e) => {
-      if (e.code === "Escape") {
-        // Jika menekan tombol Escape di keyboard, maka akan mentriger function onCloseMovieDetail()
-        // Ini akan membuat selectedId menjadi null kembali
-        onCloseMovieDetail();
-        console.log("Close");
-      }
-    };
-    document.addEventListener("keydown", handleButtonEscape);
-    return () => {
-      document.removeEventListener("keydown", handleButtonEscape);
-    };
-  }, [onCloseMovieDetail]);
+  // Custom Hook
+  useKeyListener("Escape", onCloseMovieDetail);
 
   return (
     <>
